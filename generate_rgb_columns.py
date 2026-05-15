@@ -40,24 +40,33 @@ class Complex:
         # print(self.real)
         return self.real ** 2 + self.imag ** 2
 
+squeeze: float = 0.55
+scale: int = 255
 
-
-def mand(c: Complex, resolution: int) -> (bool, float):
+def mand(c: Complex, resolution: int) -> tuple[bool, int]:
     z: Complex = Complex(0);
     for i in range(resolution):
         z = (z * z) + c
         if z.mag_sq() > 4:
-            return (False, 2.0 ** -(abs(z.mag_sq() - 4)))
-    return (True, 2.0 ** -(abs(z.mag_sq() - 4)))
+            # return (False, scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))))
+            return (False, scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))))
+    return (True, scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))))
+    # return (True, scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))))
     # return (z.mag_sq() > 4)
 
-# def fancy_color(delta: Complex, )
+def fancy_color(z: Complex) -> int:
+    return int(  )
 
 def gen_mand_pixel(c: Complex, resolution: int) -> bytes:
-    if mand(c, resolution)[0]:
-        return b'\xff\x00\x00'
+    red, grade = mand(c, resolution)
+    if red:
+        # return b'\xff\x00\x00'
+        return bytes([int(grade), 0, 0])
     else:
-        return b'\x00\x00\xff'
+        # return bytes([0, 0, int(grade)])
+        # return bytes([0, 0, int(grade)])
+        # return b'\x00\x00\xff'
+        return b'\x00\x00\x00'
 
 
 def gen_frame(resolution: int, bounds: dict[str, list[float]], filename: str = 'mandel'):
@@ -101,7 +110,7 @@ def center_zoom(bounds: dict[str, float], dz: float) -> dict[str, float]:
 
     return {'domain_start': xsp, 'domain_end': xep, 'range_start': ysp, 'range_end': yep}
 
-gen_movie(50, 'mandel')
+gen_movie(25, 'mandel')
 
 # for i in range(5, 51, 5):
 #     gen_frame(i, f'{i}')
