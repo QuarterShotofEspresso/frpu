@@ -33,6 +33,9 @@ class Complex:
     def __add__(self, other: Complex) -> Complex:
         return Complex(self.real + other.real, self.imag + other.imag)
     
+    def __sub__(self, other: Complex) -> Complex:
+        return Complex(self.real - other.real, self.imag - other.imag)
+    
     def __repr__(self):
         return f'{self.real} + j{self.imag}'
     
@@ -43,29 +46,23 @@ class Complex:
 squeeze: float = 0.55
 scale: int = 255
 
-def mand(c: Complex, resolution: int) -> tuple[bool, int]:
-    z: Complex = Complex(0);
+def mand(c: Complex, resolution: int) -> tuple[bool, Complex]:
+    z: Complex = Complex(0)
     for i in range(resolution):
         z = (z * z) + c
         if z.mag_sq() > 4:
-            # return (False, scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))))
-            return (False, scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))))
-    return (True, scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))))
-    # return (True, scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))))
-    # return (z.mag_sq() > 4)
+            return (False, z)
+    return (True, z)
 
-def fancy_color(z: Complex) -> int:
-    return int(  )
+def wine_color_grade(z: Complex) -> int:
+    return int( scale * (2.0 ** -(squeeze * abs(z.mag_sq() - 4))) )
 
 def gen_mand_pixel(c: Complex, resolution: int) -> bytes:
-    red, grade = mand(c, resolution)
-    if red:
-        # return b'\xff\x00\x00'
+    is_member, vec = mand(c, resolution)
+    grade = wine_color_grade(vec)
+    if is_member:
         return bytes([int(grade), 0, 0])
     else:
-        # return bytes([0, 0, int(grade)])
-        # return bytes([0, 0, int(grade)])
-        # return b'\x00\x00\xff'
         return b'\x00\x00\x00'
 
 
