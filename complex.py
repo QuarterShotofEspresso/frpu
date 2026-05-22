@@ -1,4 +1,5 @@
 from __future__ import annotations
+from fixed import Fixed
 
 class Complex:
     real: float
