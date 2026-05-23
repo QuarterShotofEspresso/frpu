@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from concurrent.futures import ProcessPoolExecutor
+from rich.progress import track
 from complex import Complex
 import argparse
 
@@ -86,18 +87,19 @@ if __name__ == '__main__':
 
     radius = corner_point - center_anchor
 
-    target_anchor = Complex(-0.75, 0.10) # seahorse valley
+    target_anchor = Complex(-0.745, 0.10) # seahorse valley
     # target_anchor = Complex(-2.00, 0.00) # Misiurewicz Points
     # target_anchor = Complex(-0.10, 0.83) # Triple Spiral Valley
 
-    total_frames = 100
+    total_frames = 200
 
     resolution = 25
-    print(f'making movie (len={total_frames})', end='', flush=True)
-    for i in range(total_frames):
+    # print(f'making movie (len={total_frames})', end='', flush=True)
+    # for i in range(total_frames):
+    for i in track(range(total_frames), description="Rendering..."):
         img = gen_frame(target_anchor, radius, resolution)
         write_img_to_file(img, f'out/mandel-{i}')
-        print('.', end='', flush=True)
-        radius = Complex(0.9) * radius
-        # resolution += 1
+        # print('.', end='', flush=True)
+        radius = Complex(0.95) * radius
+        resolution += 1
     print('done')
