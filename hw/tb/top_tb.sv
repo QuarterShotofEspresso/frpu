@@ -1,5 +1,5 @@
 `include "src/top.sv"
-`timescale 1ns/1ps         // Set tick to 1ns. Set sim resolution to 1ps.
+`timescale 1ns/1ns         // Set tick to 1ns. Set sim resolution to 1ps.
 
 /**
  * Note:

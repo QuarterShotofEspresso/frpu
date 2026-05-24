@@ -14,6 +14,11 @@ class Complex:
         result = Complex((self.real * other.real) - (self.imag * other.imag),
                        (self.real * other.imag) + (self.imag * other.real))
         return result
+    
+
+    # Real scalar division only
+    def __truediv__(self, other: float) -> Complex:
+        return Complex(self.real / other, self.imag / other)
 
     
     def __add__(self, other: Complex) -> Complex:
@@ -24,8 +29,8 @@ class Complex:
         return Complex(self.real - other.real, self.imag - other.imag)
     
 
-    def __invert__(self) -> Complex:
-        return Complex(self.real, -self.imag)
+    # def __invert__(self) -> Complex:
+    #     return Complex(self.real, -self.imag)
 
 
     def __abs__(self) -> float:
@@ -33,7 +38,15 @@ class Complex:
     
 
     def __repr__(self):
-        return f'{self.real} + j{self.imag}'
+        return f'{self.real} + j{self.imag}  ({abs(self) ** 0.5})'
+    
+
+    def rflv(self):
+        return Complex(-self.real, self.imag)
+
+    
+    def rflh(self):
+        return Complex(self.real, -self.imag)
     
 
     # def mag_sq(self) -> float:
