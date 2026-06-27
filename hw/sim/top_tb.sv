@@ -1,4 +1,7 @@
-`include "src/top.sv"
+// `include "complex.svh"
+// `include "src/top.sv"
+// `include "src/fmul_u.sv"
+
 `timescale 1ns/1ns         // Set tick to 1ns. Set sim resolution to 1ps.
 
 /**
@@ -13,17 +16,20 @@
 
 module top_tb;
 
+import complex_pkg::*;
+
 /** declare tb signals below */
 logic clk_tb;
+complex_t z_tb, r_tb;
 
 /** declare module(s) below */
-top dut                    // declare an inst of top called "dut" (device under test)
-(
-    /** hook up tb signals to dut signals */
-    .clk(clk_tb)           // connect dut's clk wire to clk_tb
+top dut (
+    .clk(clk_tb),
+    .z(z_tb),
+    .r(r_tb)
 );
 
-localparam CLK_PERIOD = /** clk period */;
+localparam CLK_PERIOD = 2;
 always #(CLK_PERIOD/2) clk_tb=~clk_tb;          // toggle clk_tb every #(CLK_PERIOD/2) ticks
 
 initial begin
@@ -34,7 +40,8 @@ end
 initial begin
     /** testbench logic goes below */
     clk_tb<=1'b1;       // sets clk_tb to 1
-    #(CLK_PERIOD*3);    // waits for CLK_PERIOD * 3 ticks
+    z_tb <= '0;
+    #(CLK_PERIOD*10);    // waits for CLK_PERIOD * 3 ticks
     $finish;            // end simulation, otherwise it runs indefinitely
 end
 

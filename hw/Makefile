@@ -1,7 +1,7 @@
 .PHONY: clean
 
-%.sim: tb/%_tb.sv #src/*.sv
-	iverilog -g2012 -o build/$@ $<
+%.sim: sim/%_tb.sv
+	iverilog -g2012 -f files.f -o build/$@ $<
 	vvp build/$@
 	gtkwave build/$*.vcd
 

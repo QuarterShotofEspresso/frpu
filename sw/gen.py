@@ -6,7 +6,6 @@ from rich.progress import track
 from complex import Complex
 import argparse
 
-# resolution = 25
 FRAME_WIDTH, FRAME_HEIGHT = 480, 272
 
 class ComplexFrame:
@@ -80,7 +79,9 @@ def gen_frame(start: Complex, dx: Complex, dy: Complex, resolution: int) -> byte
 
 if __name__ == '__main__':
     total_frames = 200
-    resolution = 25
+    # resolutionf = 9.4
+    # resolution: int = int(resolutionf)
+    resolution: int = 15
     zoom_rate = Complex(0.95)
 
     origin_start_frame = Complex(-2, 1)
@@ -114,5 +115,7 @@ if __name__ == '__main__':
         dx *= zoom_rate
         dy *= zoom_rate
         target_start_frame = target_anchor + radius
+        # resolutionf += 1
+        # resolution = int(resolutionf)
         resolution += 1
     print('done')
