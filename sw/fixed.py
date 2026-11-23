@@ -9,8 +9,10 @@ class Fixed:
     _ras: int =  2 ** (_q[1])
 
     
-    def from_float(self, fpay: float) -> Fixed:
-        return Fixed(int( (fpay * self._ras) // 1 ))
+    @classmethod
+    def from_float(cls, fpay: float) -> Fixed:
+        out = int( (fpay * cls._ras) // 1 )
+        return Fixed(cls._clamp(out))
 
 
     @classmethod
@@ -30,18 +32,18 @@ class Fixed:
     
     
     def __sub__(self, other: Fixed) -> Fixed:
-        sum = self._pyl - other._pyl
-        return Fixed(self._clamp(sum))
+        out = self._pyl - other._pyl
+        return Fixed(self._clamp(out))
 
 
     def __mul__(self, other: Fixed) -> Fixed:
-        prod = (self._pyl * other._pyl) // self._ras
-        return Fixed(self._clamp(prod))
+        out = (self._pyl * other._pyl) // self._ras
+        return Fixed(self._clamp(out))
 
 
     def __truediv__(self, other: float) -> Fixed:
-        quot = (self._pyl * self._ras) // self.from_float(other)._pyl
-        return Fixed(self._clamp(quot))
+        out = (self._pyl * self._ras) // self.from_float(other)._pyl
+        return Fixed(self._clamp(out))
 
 
     def __neg__(self) -> Fixed:
