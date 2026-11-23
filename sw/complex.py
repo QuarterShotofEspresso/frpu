@@ -2,10 +2,10 @@ from __future__ import annotations
 from fixed import Fixed
 
 class Complex:
-    real: Fixed
-    imag: Fixed
+    real: float
+    imag: float
 
-    def __init__(self, r: Fixed, i: Fixed = Fixed(0)):
+    def __init__(self, r: float, i: float = 0):
         self.real = r
         self.imag = i
 
