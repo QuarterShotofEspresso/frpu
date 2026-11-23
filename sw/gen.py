@@ -4,6 +4,7 @@ from __future__ import annotations
 from concurrent.futures import ProcessPoolExecutor
 from rich.progress import track
 from complex import Complex
+from fixed import Fixed
 import argparse
 
 FRAME_WIDTH, FRAME_HEIGHT = 480, 272
@@ -43,7 +44,7 @@ def std_color_grade(z: Complex) -> int:
 
 
 def compute_mandelbrot(c: Complex, resolution: int) -> Complex:
-    z = Complex(0)
+    z = Complex(Fixed(0))
     for _ in range(resolution):
         if abs(z) > 4:
             return z
@@ -70,7 +71,7 @@ def comp_row(row: list[Complex], resolution: int) -> bytes:
 def gen_frame(start: Complex, dx: Complex, dy: Complex, resolution: int) -> bytearray:
     frame = bytearray()
     with ProcessPoolExecutor() as exec:
-        rows = [[start + (dx * Complex(j) + dy * Complex(i)) for j in range(FRAME_WIDTH)] for i in range(FRAME_HEIGHT)]
+        rows = [[start + (dx * Complex(Fixed.from_float(j)) + dy * Complex(Fixed.from_float(i))) for j in range(FRAME_WIDTH)] for i in range(FRAME_HEIGHT)]
         futures = [exec.submit(comp_row, row, resolution) for row in rows]
         for f in futures:
             frame += f.result()
@@ -82,10 +83,10 @@ if __name__ == '__main__':
     # resolutionf = 9.4
     # resolution: int = int(resolutionf)
     resolution: int = 15
-    zoom_rate = Complex(0.95)
+    zoom_rate = Complex(Fixed.from_float(0.95))
 
-    origin_start_frame = Complex(-2, 1)
-    origin_anchor = Complex(-0.5, 0)
+    origin_start_frame = Complex(Fixed.from_float(-2), Fixed.from_float(1))
+    origin_anchor = Complex(Fixed.from_float(-0.5), Fixed.from_float(0))
 
     radius: Complex = origin_start_frame - origin_anchor
     print(f"radius: {radius}")
@@ -101,7 +102,7 @@ if __name__ == '__main__':
     dy: Complex = frame_height / float(FRAME_HEIGHT)
     print(f"dx: {dx}\ndy: {dy}")
 
-    target_anchor = Complex(-0.7445, 0.10025) # seahorse valley
+    target_anchor = Complex(Fixed.from_float(-0.7445), Fixed.from_float(0.10025)) # seahorse valley
     # target_anchor = Complex(-2.00, 0.00) # Misiurewicz Points
     # target_anchor = Complex(-0.10, 0.83) # Triple Spiral Valley
 
