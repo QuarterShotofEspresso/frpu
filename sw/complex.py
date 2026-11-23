@@ -34,7 +34,7 @@ class Complex:
 
 
     def __abs__(self) -> float:
-        return self.real ** 2 + self.imag ** 2
+        return (self.real * self.real) + (self.imag * self.imag)
     
 
     def __repr__(self):

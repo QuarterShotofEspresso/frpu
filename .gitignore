@@ -3,5 +3,4 @@ out*
 __pycache__
 .venv
 build
-.claude
 *.ppm
