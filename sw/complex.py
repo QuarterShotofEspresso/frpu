@@ -2,10 +2,10 @@ from __future__ import annotations
 from fixed import Fixed
 
 class Complex:
-    real: float
-    imag: float
+    real: Fixed
+    imag: Fixed
 
-    def __init__(self, r: float, i: float = 0):
+    def __init__(self, r: Fixed, i: Fixed = Fixed(0)):
         self.real = r
         self.imag = i
 
@@ -34,7 +34,7 @@ class Complex:
 
 
     def __abs__(self) -> float:
-        return (self.real * self.real) + (self.imag * self.imag)
+        return float((self.real * self.real) + (self.imag * self.imag))
     
 
     def __repr__(self):
