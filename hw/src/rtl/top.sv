@@ -1,12 +1,11 @@
 
 module top
-    import complex_pkg::*;
 (
     /** Input Ports */
-    input wire clk,
-    input complex_t z,
+    input wire                    clk,
+    input complex_pkg::complex_t  z,
     /** Output Ports */
-    output complex_t r
+    output complex_pkg::complex_t r
 );
 
 
