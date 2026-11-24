@@ -2,7 +2,7 @@ from __future__ import annotations
 
 class Fixed:
 
-    _q:   tuple[int, int] = (10, 18)          # (Z bits, R bits)
+    _q:   tuple[int, int] = (10, 32)          # (Z bits, R bits)
     _pyl: int                                 # actual data
     _max: int =  2 ** (_q[0] + _q[1] - 1) - 1 # max value
     _min: int = -2 ** (_q[0] + _q[1] - 1)     # min value
