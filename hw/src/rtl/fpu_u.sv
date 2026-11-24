@@ -1,5 +1,5 @@
 
-module fmul_u
+module fpu_u
 (
     input  wire clk,
     input  complex_pkg::mac_t a,
@@ -20,4 +20,4 @@ always_ff @(posedge clk) begin
         c <= product[71] ? MIN : MAX;
 end
 
-endmodule : fmul_u
+endmodule : fpu_u
