@@ -9,7 +9,7 @@ module top
 );
 
 
-fmul_u fmul_inst_1 (
+fpu_u fmul_inst_1 (
     .clk(clk),
     .a(z.r),
     .b(z.r),

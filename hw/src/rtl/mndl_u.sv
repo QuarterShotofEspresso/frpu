@@ -1,5 +1,5 @@
 
-module mandel_u (
+module mndl_u (
     // Input Ports
     input wire rst_n,
     input wire clk,
@@ -12,7 +12,7 @@ module mandel_u (
 complex_t z;
 logic [31:0] i;
 
-fmul_u fmul_u_A (
+fmul_u mul_a (
 
 );
 
