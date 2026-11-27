@@ -3,49 +3,68 @@ module mndl_u (
     // Input Ports
     input wire rst_n,
     input wire clk,
-    input complex_t c,
+    input wire valid,
+    input complex_pkg::complex_t c,
 
-    output logic valid,
+    output logic ready,
     output logic is_member
 );
 
-complex_t z;
+localparam RESOLUTION = 25;
+
+complex_pkg::complex_t z;
 logic [31:0] i;
+wire valid;
+wire terminate;
 
-fmul_u mul_a (
+complex_pkg::mac_t z_rr, z_ii, z_ri, length,
+    z_r_prime, z_i_prime;
 
-);
 
 initial begin
-    z <= '0;
-    i <= '0;
+    z = '0;
+    i = '0;
 end
 
-wire valid;
-assign valid = (i < 25) && (result < 4);
+fmul_u mul_rr
+(
+    .clk(clk),
+    .a(z.r),
+    .b(z.r),
+    .c(z_rr)
+);
 
-mac_t result;
+fmul_u mul_ii
+(
+    .clk(clk),
+    .a(z.i),
+    .b(z.i),
+    .c(z_ii)
+);
+
+fmul_u mul_ir
+(
+    .clk(clk),
+    .a(z.i),
+    .b(z.r),
+    .c(z_ri)
+);
+
+
+
+
+assign length = z_rr + z_ii;
+assign terminate = (length > 4) || (i >= RESOLUTION) || !ready;
+assign is_member = (length > 4);
+
 
 always_ff @(posedge clk) begin
-    i <= (valid) ? i + 1 : 0;
-end
 
-always_ff @(posedge clk) begin
+    z_r_prime <= length + c.r;
+    z_i_prime <= {{z_ri[34:0]}, 1'b0} + c.i;
 
-    zr_a <= (z.r * z.r);
-    zi_a <= (z.i * z.i);
-    zm_a <= (z.r * z.i) << 1;
-    z_b  <= zr_a - zi_a;
-    z.r  <= zr_a + c.r;
-    z
-
-    zra <= (z.creal * z.creal) - (z.cimag * z.cimag);
-    zia <= (z.creal * z.cimag) << 1;
-
-    z.creal <= zra + c.creal;
-    z.cimag <= zia + c.cimag;
-
-    result <= (z.creal * z.creal) + (z.cimag * z.cimag);
+    z.r <= z_r_prime;
+    z.i <= z_i_prime;
 
 end
 
